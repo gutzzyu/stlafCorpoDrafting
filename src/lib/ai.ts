@@ -1,5 +1,3 @@
-import { GoogleGenAI, Type } from "@google/genai";
-
 // Standard error messages for consistent UI feedback
 export function getAIErrorMessage(error: any): string {
   const errorString = String(error?.message || error || "");
