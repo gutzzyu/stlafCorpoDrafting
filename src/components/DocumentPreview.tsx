@@ -74,6 +74,12 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
   return (
     <div className="flex flex-col items-center bg-muted p-8 overflow-auto print:bg-white print:p-0 print-container">
       <style dangerouslySetInnerHTML={{ __html: `
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;700&display=swap');
+        
+        .document-font {
+          font-family: 'Book Antiqua', 'Palatino Linotype', 'Palatino', 'Georgia', serif !important;
+        }
+
         @media print {
           /* Hide UI elements marked with no-print */
           .no-print { display: none !important; }
@@ -97,9 +103,6 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
 
           @page { size: ${paperSize === 'legal' ? '8.5in 13in' : paperSize}; margin: 1in; }
           
-          .document-font {
-            font-family: 'Book Antiqua', 'Palatino Linotype', 'Palatino', 'Georgia', serif !important;
-          }
           .page-break { page-break-before: always !important; }
           .no-break { page-break-inside: avoid !important; }
           
@@ -340,23 +343,23 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
           )}
 
           <div className="flex justify-between items-start mt-8">
-            <div className="space-y-1 text-sm font-sans flex flex-col">
-              <div className="grid grid-cols-[80px_100px_10px] items-end">
+            <div className="space-y-1 text-[12pt] flex flex-col">
+              <div className="grid grid-cols-[100px_120px_10px] items-end">
                 <span>Doc. No.</span>
                 <span className="border-b border-black mx-1 mb-[2px]"></span>
                 <span>;</span>
               </div>
-              <div className="grid grid-cols-[80px_100px_10px] items-end">
+              <div className="grid grid-cols-[100px_120px_10px] items-end">
                 <span>Page No.</span>
                 <span className="border-b border-black mx-1 mb-[2px]"></span>
                 <span>;</span>
               </div>
-              <div className="grid grid-cols-[80px_100px_10px] items-end">
+              <div className="grid grid-cols-[100px_120px_10px] items-end">
                 <span>Book No.</span>
                 <span className="border-b border-black mx-1 mb-[2px]"></span>
                 <span>;</span>
               </div>
-              <div className="grid grid-cols-[80px_100px_10px] items-end">
+              <div className="grid grid-cols-[100px_120px_10px] items-end">
                 <span>Series of</span>
                 <span className="mx-1">{currentYear}.</span>
               </div>
