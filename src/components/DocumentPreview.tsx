@@ -268,17 +268,19 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
                 </div>
               </div>
 
-              <div className="mb-12 leading-relaxed indent-12">
-                <strong>IN WITNESS WHEREOF</strong>, I affix my signature this ____ day of ____________ {currentYear} in ____________________.
-              </div>
+              <div className="no-break">
+                <div className="mb-12 leading-relaxed indent-12">
+                  <strong>IN WITNESS WHEREOF</strong>, I affix my signature this ____ day of ____________ {currentYear} in ____________________.
+                </div>
 
-              <div className="flex flex-col items-center mb-4 mt-8 ml-auto mr-0 w-fit">
-                <div className="flex flex-col items-center min-w-[300px]">
-                  <div className="w-full border-b border-black mb-1"></div>
-                  <div className="font-bold uppercase text-center leading-tight">
-                    {secDetails?.signatoryName || "SIGNATORY NAME"}
+                <div className="flex flex-col items-center mb-4 mt-8 ml-auto mr-0 w-fit">
+                  <div className="flex flex-col items-center min-w-[300px]">
+                    <div className="w-full border-b border-black mb-1"></div>
+                    <div className="font-bold uppercase text-center leading-tight">
+                      {secDetails?.signatoryName || "SIGNATORY NAME"}
+                    </div>
+                    <div className="text-sm mt-1">{secDetails?.signatoryCapacity.split(' (')[0] || "Corporate Secretary"}</div>
                   </div>
-                  <div className="text-sm mt-1">{secDetails?.signatoryCapacity.split(' (')[0] || "Corporate Secretary"}</div>
                 </div>
               </div>
             </>
@@ -287,7 +289,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
         </div>
 
         {/* Page 2: Jurat / Acknowledgement Section */}
-        <div className="no-break mt-4 page-break pt-[0.2in] flex flex-col">
+        <div className="no-break mt-8 pt-4 flex flex-col">
           {documentType === 'spa' ? (
             <>
               <div className="text-center font-bold mb-12 uppercase">
@@ -343,30 +345,30 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
           )}
 
           <div className="flex justify-between items-start mt-8">
-            <div className="space-y-1 text-[12pt] flex flex-col">
-              <div className="grid grid-cols-[100px_120px_10px] items-end">
-                <span>Doc. No.</span>
-                <span className="border-b border-black mx-1 mb-[2px]"></span>
-                <span>;</span>
+            <div className="text-[12pt] flex flex-col font-bold">
+              <div className="grid grid-cols-[75px_80px_5px] items-end leading-none mb-1">
+                <span className="font-bold">Doc. No.</span>
+                <span className="border-b border-black"></span>
+                <span className="font-normal">;</span>
               </div>
-              <div className="grid grid-cols-[100px_120px_10px] items-end">
-                <span>Page No.</span>
-                <span className="border-b border-black mx-1 mb-[2px]"></span>
-                <span>;</span>
+              <div className="grid grid-cols-[75px_80px_5px] items-end leading-none mb-1">
+                <span className="font-bold">Page No.</span>
+                <span className="border-b border-black"></span>
+                <span className="font-normal">;</span>
               </div>
-              <div className="grid grid-cols-[100px_120px_10px] items-end">
-                <span>Book No.</span>
-                <span className="border-b border-black mx-1 mb-[2px]"></span>
-                <span>;</span>
+              <div className="grid grid-cols-[75px_80px_5px] items-end leading-none mb-1">
+                <span className="font-bold">Book No.</span>
+                <span className="border-b border-black"></span>
+                <span className="font-normal">;</span>
               </div>
-              <div className="grid grid-cols-[100px_120px_10px] items-end">
-                <span>Series of</span>
-                <span className="mx-1">{currentYear}.</span>
+              <div className="grid grid-cols-[75px_80px_5px] items-end leading-none">
+                <span className="font-bold">Series of</span>
+                <span className="text-center font-bold">{currentYear}.</span>
               </div>
             </div>
             
-            <div className="flex flex-col items-center min-w-[250px] mt-1">
-              <div className="text-center font-bold uppercase">
+            <div className="flex flex-col items-center min-w-[200px] mt-1 shrink-0">
+              <div className="text-center font-bold uppercase border-t border-black pt-1 w-full text-sm">
                 NOTARY PUBLIC
               </div>
             </div>
