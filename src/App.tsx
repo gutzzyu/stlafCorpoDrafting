@@ -75,7 +75,7 @@ const SEC_CORPS: Record<string, {name: string, address: string}[]> = {
 
 export default function App() {
   const [step, setStep] = useState(1);
-  const [documentType, setDocumentType] = useState<'spa' | 'sec' | 'other' | null>(null);
+  const [documentType, setDocumentType] = useState<'spa' | 'sec' | 'sec_dispute' | 'other' | null>(null);
   const [details, setDetails] = useState<SPADetails>({
     paperSize: 'legal',
     affiantName: '',
@@ -347,6 +347,43 @@ export default function App() {
     }
   };
 
+  const clearAllForms = () => {
+    // Reset SPA Details
+    setDetails({
+      paperSize: 'legal',
+      affiantName: '',
+      nationality: 'Filipino',
+      civilStatus: 'Single',
+      address: '',
+      representatives: STLAF_REPRESENTATIVES,
+      idType: '',
+      idNumber: '',
+      purposes: [
+        { id: crypto.randomUUID(), agency: '', text: '', suggestedPurpose: 'MANUAL', rdo: '', lgu: '' }
+      ]
+    });
+    setRepType('stlaf');
+    setActiveTab('principal');
+
+    // Reset SEC Details
+    setSecSignatoryType("");
+    setSecManualSignatory("");
+    setSecCorpName("");
+    setIsManualCorp(false);
+    setSecCorpAddress("");
+    setSecMeetingType("");
+    setSecMeetingDate("");
+    setSecHeadline("");
+    setSecIdType("");
+    setSecIdNumber("");
+    setSecSignatoryCapacity("Corporate Secretary (Domestic)");
+    setSecSignatoryAddress("");
+    setSecFileBase64(null);
+    setSecFileMimeType(null);
+    setSecFileName(null);
+    setExtractedClauses([]);
+  };
+
   return (
     <div className="min-h-screen bg-[#f0f2f5] flex flex-col font-inter print:bg-white">
       {/* Navbar */}
@@ -398,6 +435,7 @@ export default function App() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full px-4">
                 <button
                   onClick={() => {
+                    clearAllForms();
                     setDocumentType('spa');
                     setStep(2);
                     setActiveTab('principal');
@@ -413,6 +451,7 @@ export default function App() {
 
                 <button
                   onClick={() => {
+                    clearAllForms();
                     setDocumentType('sec');
                     setStep(2);
                   }}
@@ -423,6 +462,21 @@ export default function App() {
                   </div>
                   <h3 className="text-xl font-extrabold text-[#123765] mb-2 uppercase tracking-tight">SEC Cert Standard</h3>
                   <p className="text-sm text-slate-500 font-medium">Drafting tool for standard SEC Certificates and documentation.</p>
+                </button>
+
+                <button
+                  onClick={() => {
+                    clearAllForms();
+                    setDocumentType('sec_dispute');
+                    setStep(2);
+                  }}
+                  className="group flex flex-col items-center justify-center p-12 bg-white rounded-2xl shadow-lg border-2 border-transparent hover:border-[#ccaa49] hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
+                >
+                  <div className="w-20 h-20 rounded-full bg-[#123765]/5 text-[#123765] flex items-center justify-center mb-6 group-hover:bg-[#123765] group-hover:text-white transition-colors">
+                    <Scale size={36} />
+                  </div>
+                  <h3 className="text-xl font-extrabold text-[#123765] mb-2 uppercase tracking-tight">SEC Cert (No Dispute)</h3>
+                  <p className="text-sm text-slate-500 font-medium">Form for Certification of No Intra-Corporate Dispute.</p>
                 </button>
 
                 <button
@@ -870,10 +924,10 @@ export default function App() {
                           setIsManualCorp(false);
                           setSecCorpAddress("");
                           if (val === "Chris C. Tamesis") {
-                            setSecSignatoryAddress("7th Floor Victoria Sports Tower Station II EDSA South Triangle District 4, Quezon City, 1103");
+                            setSecSignatoryAddress("7th Floor Victoria Sports Tower Station II EDSA South Triangle District 4, Quezon City, 1103, Philippines");
                             setSecSignatoryCapacity("Corporate Secretary (Domestic)");
                           } else if (val === "Cheska Nicole Santiago") {
-                            setSecSignatoryAddress("7th Floor Victoria Sports Tower Station II EDSA South Triangle District 4, Quezon City, 1103");
+                            setSecSignatoryAddress("7th Floor Victoria Sports Tower Station II EDSA South Triangle District 4, Quezon City, 1103, Philippines");
                             setSecSignatoryCapacity("Corporate Secretary (Domestic)");
                           } else {
                             setSecSignatoryAddress("");
@@ -1303,6 +1357,232 @@ export default function App() {
             </motion.div>
           )}
 
+          {step === 2 && documentType === 'sec_dispute' && (
+            <motion.div 
+              key="details_sec_dispute"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              className="p-6 max-w-6xl mx-auto w-full flex flex-col no-print gap-8"
+            >
+              <Card className="border-none shadow-xl overflow-visible max-w-3xl mx-auto w-full">
+                <CardHeader className="bg-white border-b border-muted p-8">
+                  <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 rounded-full bg-[#123765]/5 text-[#123765] flex items-center justify-center">
+                      <Scale size={32} />
+                    </div>
+                    <div>
+                      <CardTitle className="text-[#123765] text-2xl uppercase tracking-tight font-extrabold flex items-center gap-2">
+                        No Intra-Corporate Dispute Drafting <Sparkles className="text-[#ccaa49]" size={20} />
+                      </CardTitle>
+                      <CardDescription className="text-slate-500 italic text-sm">
+                        Professional drafting of Certification of No Intra-Corporate Dispute.
+                      </CardDescription>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="p-8 space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-6 border-b border-slate-100">
+                    <div className="space-y-2">
+                      <Label className="text-[#123765] font-bold uppercase text-[10px] tracking-widest">Signatory Name</Label>
+                      <Select 
+                        value={secSignatoryType} 
+                        onValueChange={(val) => {
+                          setSecSignatoryType(val);
+                          setSecCorpName("");
+                          setSecIdType("");
+                          setSecIdNumber("");
+                          setIsManualCorp(false);
+                          setSecCorpAddress("");
+                          if (val === "Chris C. Tamesis") {
+                            setSecSignatoryAddress("7th Floor Victoria Sports Tower Station II EDSA South Triangle District 4, Quezon City, 1103, Philippines");
+                            setSecSignatoryCapacity("Corporate Secretary (Domestic)");
+                          } else if (val === "Cheska Nicole Santiago") {
+                            setSecSignatoryAddress("7th Floor Victoria Sports Tower Station II EDSA South Triangle District 4, Quezon City, 1103, Philippines");
+                            setSecSignatoryCapacity("Corporate Secretary (Domestic)");
+                          } else {
+                            setSecSignatoryAddress("");
+                          }
+                          if (val !== 'Others (Manual Input)') {
+                            setSecManualSignatory("");
+                          }
+                        }}
+                      >
+                        <SelectTrigger className="h-12 border-slate-200 focus:ring-2 focus:ring-[#123765]/20 focus:border-[#123765] transition-all">
+                          <SelectValue placeholder="Select Signatory" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Chris C. Tamesis">Chris C. Tamesis</SelectItem>
+                          <SelectItem value="Cheska Nicole Santiago">Cheska Nicole Santiago</SelectItem>
+                          <SelectItem value="Others (Manual Input)">Others (Manual Input)</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {secSignatoryType === 'Others (Manual Input)' ? (
+                      <div className="space-y-2">
+                        <Label className="text-[#123765] font-bold uppercase text-[10px] tracking-widest">Enter Signatory Name</Label>
+                        <Input 
+                          placeholder="e.g. Juan Dela Cruz" 
+                          className="h-12 border-slate-200"
+                          value={secManualSignatory}
+                          onChange={(e) => setSecManualSignatory(e.target.value)}
+                        />
+                      </div>
+                    ) : (
+                      <div className="hidden md:block"></div>
+                    )}
+
+                    {secSignatoryType === 'Others (Manual Input)' || !secSignatoryType || isManualCorp ? (
+                      <div className="space-y-2 md:col-span-2">
+                        <Label className="text-[#123765] font-bold uppercase text-[10px] tracking-widest">Corporate Name</Label>
+                        <Input 
+                          placeholder="Enter Corporate Name" 
+                          className="h-12 border-slate-200 focus:ring-2 focus:ring-[#123765]/20 focus:border-[#123765] transition-all"
+                          value={secCorpName}
+                          onChange={(e) => setSecCorpName(e.target.value)}
+                        />
+                        {isManualCorp && (
+                           <Button 
+                             variant="link" 
+                             className="p-0 h-auto text-[10px] text-slate-400"
+                             onClick={() => {
+                               setIsManualCorp(false);
+                               setSecCorpName("");
+                             }}
+                           >
+                             Return to list
+                           </Button>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="space-y-2 md:col-span-2">
+                        <Label className="text-[#123765] font-bold uppercase text-[10px] tracking-widest">Select Corporate Name</Label>
+                        <Select 
+                          value={secCorpName} 
+                          onValueChange={(val) => {
+                            if (val === 'others') {
+                              setIsManualCorp(true);
+                              setSecCorpName("");
+                              setSecCorpAddress("");
+                            } else {
+                              setSecCorpName(val);
+                              const corp = SEC_CORPS[secSignatoryType]?.find(c => c.name === val);
+                              if (corp) {
+                                setSecCorpAddress(corp.address);
+                              }
+                            }
+                          }}
+                        >
+                          <SelectTrigger className="h-12 border-slate-200 focus:ring-2 focus:ring-[#123765]/20 focus:border-[#123765] transition-all">
+                            <SelectValue placeholder="Select Corporation" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {SEC_CORPS[secSignatoryType]?.map((corp, idx) => (
+                              <SelectItem key={idx} value={corp.name}>
+                                {corp.name}
+                              </SelectItem>
+                            ))}
+                            <SelectItem value="others">Others (Manual Input)</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    )}
+
+                    <div className="space-y-2 md:col-span-2">
+                      <Label className="text-[#123765] font-bold uppercase text-[10px] tracking-widest">Principal Office Address OF CORPORATION</Label>
+                      <Textarea 
+                        placeholder="Complete principal office address of the corporation"
+                        className={cn(
+                          "min-h-[80px] border-slate-200 leading-relaxed focus:ring-2 focus:ring-[#123765]/20 focus:border-[#123765] transition-all",
+                          (!isManualCorp && secSignatoryType !== '' && secSignatoryType !== 'Others (Manual Input)' && secCorpName !== '') ? "bg-slate-50 text-slate-500" : "bg-white"
+                        )}
+                        value={secCorpAddress}
+                        onChange={(e) => setSecCorpAddress(e.target.value)}
+                        readOnly={!isManualCorp && secSignatoryType !== '' && secSignatoryType !== 'Others (Manual Input)' && secCorpName !== ''}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-[#123765] font-bold uppercase text-[10px] tracking-widest">Signatory Capacity</Label>
+                      <Select 
+                        value={secSignatoryCapacity} 
+                        onValueChange={setSecSignatoryCapacity}
+                      >
+                        <SelectTrigger className="h-12 border-slate-200 focus:ring-2 focus:ring-[#123765]/20 focus:border-[#123765] transition-all">
+                          <SelectValue placeholder="Select Capacity" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Corporate Secretary (Domestic)">Corporate Secretary (Domestic)</SelectItem>
+                          <SelectItem value="Resident Agent (Foreign)">Resident Agent (Foreign)</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-[#123765] font-bold uppercase text-[10px] tracking-widest">Signatory Office Address</Label>
+                      <Input 
+                        placeholder="Enter Signatory's Office Address" 
+                        className="h-12 border-slate-200 focus:ring-2 focus:ring-[#123765]/20 focus:border-[#123765] transition-all"
+                        value={secSignatoryAddress}
+                        onChange={(e) => setSecSignatoryAddress(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="space-y-2 md:col-span-2">
+                      <Label className="text-[#123765] font-bold uppercase text-[10px] tracking-widest">Meeting Date</Label>
+                      <Input 
+                        type="date"
+                        className="h-12 border-slate-200"
+                        value={secMeetingDate}
+                        onChange={(e) => setSecMeetingDate(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-[#123765] font-bold uppercase text-[10px] tracking-widest">Valid ID</Label>
+                      <Input 
+                        placeholder="e.g., Philippine Passport" 
+                        className="h-12 border-slate-200 focus:ring-2 focus:ring-[#123765]/20 focus:border-[#123765] transition-all"
+                        value={secIdType}
+                        onChange={(e) => setSecIdType(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-[#123765] font-bold uppercase text-[10px] tracking-widest">ID Number</Label>
+                      <Input 
+                        placeholder="e.g., P1234567A" 
+                        className="h-12 border-slate-200 focus:ring-2 focus:ring-[#123765]/20 focus:border-[#123765] transition-all"
+                        value={secIdNumber}
+                        onChange={(e) => setSecIdNumber(e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between items-center pt-8">
+                    <Button 
+                      variant="ghost" 
+                      onClick={() => {
+                        setStep(1);
+                        setDocumentType(null);
+                      }} 
+                      className="text-slate-600 hover:text-[#123765] h-10 px-4"
+                    >
+                      <ChevronLeft size={18} className="mr-2" /> Back to Document Selection
+                    </Button>
+                    <Button 
+                      className="bg-[#123765] hover:bg-[#0d2a4d] text-white px-8 py-5 text-md shadow-md rounded-lg transition-all group"
+                      onClick={() => setStep(3)}
+                    >
+                      Finalize Document & Review <ChevronRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          )}
+
           {step === 3 && (
             <motion.div 
               key={documentType === 'spa' ? "preview_spa" : "preview_sec"}
@@ -1335,7 +1615,7 @@ export default function App() {
 
               <DocumentPreview 
                 details={details} 
-                documentType={documentType as 'spa' | 'sec'}
+                documentType={documentType as 'spa' | 'sec' | 'sec_dispute'}
                 secDetails={{
                   signatoryName: secSignatoryType === 'Others (Manual Input)' ? (secManualSignatory || 'Others (Manual Input)') : secSignatoryType,
                   signatoryCapacity: secSignatoryCapacity,
