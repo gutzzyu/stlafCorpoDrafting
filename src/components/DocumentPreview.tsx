@@ -286,8 +286,8 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
                 </div>
               )}
 
-              <div className="no-break mt-4">
-                <div className="mb-6 leading-relaxed indent-12">
+              <div className={cn("no-break", documentType === 'sec_dispute' ? "mt-2" : "mt-4")}>
+                <div className={cn("leading-relaxed indent-12", documentType === 'sec_dispute' ? "mb-2" : "mb-6")}>
                   {documentType === 'sec_dispute' ? (
                     <><strong>IN TRUTH WITNESS WHEREOF</strong>, I have hereunto affixed my signature this ____ day of ____________, {currentYear}, in the City/Municipality of ____________________, Province of ____________________, Republic of the Philippines.</>
                   ) : (
@@ -295,7 +295,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
                   )}
                 </div>
 
-                <div className="flex flex-col items-center mb-4 mt-10 ml-auto mr-0 w-fit">
+                <div className={cn("flex flex-col items-center mb-4 ml-auto mr-0 w-fit", documentType === 'sec_dispute' ? "mt-6" : "mt-10")}>
                   <div className="flex flex-col items-center min-w-[300px]">
                     <div className="w-full border-b border-black mb-1"></div>
                     <div className="font-bold uppercase text-center leading-tight">
@@ -311,7 +311,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
         </div>
 
         {/* Page 2: Jurat / Acknowledgement Section */}
-        <div className="no-break mt-4 pt-2 flex flex-col">
+        <div className={cn("no-break flex flex-col", documentType === 'sec_dispute' ? "mt-1 pt-0" : "mt-4 pt-2")}>
           {documentType === 'spa' ? (
             <>
               <div className="text-center font-bold mb-12 uppercase">
@@ -360,7 +360,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
             </>
           ) : (
             <>
-              <div className="mb-4 leading-relaxed text-justify indent-12">
+              <div className={cn("leading-relaxed text-justify indent-12", documentType === 'sec_dispute' ? "mb-2" : "mb-4")}>
                 {documentType === 'sec_dispute' ? (
                   <><strong>SUBSCRIBED AND SWORN</strong> to before me this ____________ at ____________________, affiant exhibiting to me his/her {secDetails?.idType || "[ID TYPE]"} No. {secDetails?.idNumber || "[ID NUMBER]"}.</>
                 ) : (
@@ -370,7 +370,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
             </>
           )}
 
-          <div className="flex justify-between items-start mt-8">
+          <div className={cn("flex justify-between items-start", documentType === 'sec_dispute' ? "mt-2" : "mt-8")}>
             <div className="text-[12pt] flex flex-col font-bold">
               <div className="grid grid-cols-[75px_80px_5px] items-end leading-none mb-1">
                 <span className="font-bold">Doc. No.</span>
