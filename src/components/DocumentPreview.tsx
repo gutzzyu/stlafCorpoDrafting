@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 interface DocumentPreviewProps {
   details: SPADetails;
   secDetails?: SecDetails;
-  documentType: 'spa' | 'sec';
+  documentType: 'spa' | 'sec' | 'sec_dispute';
   contentRef: React.RefObject<HTMLDivElement>;
 }
 
@@ -212,6 +212,10 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
                 SECRETARY'S CERTIFICATE
               </div>
 
+              {documentType === 'sec_dispute' && (
+                <div className="font-bold mb-8 uppercase">KNOWN ALL MEN BY THIS PRESENTS</div>
+              )}
+
               <div className="mb-6 leading-relaxed indent-12">
                 I, <strong>{secDetails?.signatoryName || "[NAME OF SECRETARY]"}</strong>, of legal age, Filipino, with office address at <strong>{secDetails?.signatoryAddress || "[SIGNATORY OFFICE ADDRESS]"}</strong>, after being duly sworn in accordance with law, hereby certify that:
               </div>
@@ -224,55 +228,71 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
 
                 <div className="flex gap-4">
                   <span className="font-bold">2.</span>
-                  <span>That as <strong>{secDetails?.signatoryCapacity.split(' (')[0] || "Corporate Secretary"}</strong>, I am the custodian of the corporate records of the Corporation including minutes of the meetings of its stockholders and Board of Directors.</span>
+                  {documentType === 'sec_dispute' ? (
+                    <span>
+                      To the best of my knowledge, from the date of approval of the amendment by the Board of Directors in a meeting held on <strong>{secDetails?.meetingDate ? new Date(secDetails.meetingDate).toLocaleDateString('en-PH', { month: 'long', day: 'numeric', year: 'numeric' }) : "[DATE OF MEETING]"}</strong> and the Stockholders in a meeting held on <strong>{secDetails?.meetingDate ? new Date(secDetails.meetingDate).toLocaleDateString('en-PH', { month: 'long', day: 'numeric', year: 'numeric' }) : "[DATE OF MEETING]"}</strong> up to the date of filing of the application for amendment of Articles of Incorporation and/or By-Laws with the Commission, no action or proceeding has been filed or is pending before any Court involving an intra-corporate dispute and/or any claim by any person or group against the board of directors, individual director and/or major corporate officer/s of the Corporation as its duly elected and/or appointed director or officer or vice versa.
+                    </span>
+                  ) : (
+                    <span>That as <strong>{secDetails?.signatoryCapacity.split(' (')[0] || "Corporate Secretary"}</strong>, I am the custodian of the corporate records of the Corporation including minutes of the meetings of its stockholders and Board of Directors.</span>
+                  )}
                 </div>
 
-                <div className="flex gap-4">
-                  <span className="font-bold">3.</span>
-                  <span>That during the <strong>{secDetails?.meetingType || "[MEETING TYPE]"} Meeting</strong> of the Board of Directors of the Corporation held on <strong>{secDetails?.meetingDate ? new Date(secDetails.meetingDate).toLocaleDateString('en-PH', { month: 'long', day: 'numeric', year: 'numeric' }) : "[MEETING DATE]"}</strong>, at which meeting a quorum was present and acted throughout, the following resolutions was unanimously adopted and approved:</span>
-                </div>
+                {documentType !== 'sec_dispute' && (
+                  <div className="flex gap-4">
+                    <span className="font-bold">3.</span>
+                    <span>That during the <strong>{secDetails?.meetingType || "[MEETING TYPE]"} Meeting</strong> of the Board of Directors of the Corporation held on <strong>{secDetails?.meetingDate ? new Date(secDetails.meetingDate).toLocaleDateString('en-PH', { month: 'long', day: 'numeric', year: 'numeric' }) : "[MEETING DATE]"}</strong>, at which meeting a quorum was present and acted throughout, the following resolutions was unanimously adopted and approved:</span>
+                  </div>
+                )}
               </div>
 
               <div className="ml-8 space-y-4 mb-12 text-justify pl-12 pr-12">
-                {secDetails?.clauses?.map((clause, idx) => (
-                  <div key={clause.id} className="leading-relaxed">
-                    <div className={clause.tableData ? "mb-4" : ""}>
-                      <strong>{idx === 0 ? '"' : ''}{clause.type}</strong>{clause.text.trim().startsWith(',') ? '' : ','} {clause.text.trim()}{!clause.tableData && idx === (secDetails?.clauses.length || 0) - 1 ? '"' : ''}
-                    </div>
-                    {Array.isArray(clause.tableData) && clause.tableData.length > 0 && Array.isArray(clause.tableData[0]) && String(clause.tableData[0][0] || "").toLowerCase() !== "null" && (
-                      <div className="mb-4 w-full">
-                        <table className="w-[99%] mx-auto border-collapse border border-black text-[12pt]">
-                          <tbody>
-                            {clause.tableData.map((row, rIdx) => (
-                              <tr key={rIdx}>
-                                {Array.isArray(row) ? row.map((cell, cIdx) => (
-                                  <td key={cIdx} className="border border-black p-2 text-center">
-                                    {cell}
-                                  </td>
-                                )) : (
-                                  <td className="border border-black p-2 text-center">{String(row)}</td>
-                                )}
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                        {idx === (secDetails?.clauses.length || 0) - 1 && <span className="block mt-2 font-bold">"</span>}
+                {documentType !== 'sec_dispute' && (
+                  secDetails?.clauses?.map((clause, idx) => (
+                    <div key={clause.id} className="leading-relaxed">
+                      <div className={clause.tableData ? "mb-4" : ""}>
+                        <strong>{idx === 0 ? '"' : ''}{clause.type}</strong>{clause.text.trim().startsWith(',') ? '' : ','} {clause.text.trim()}{!clause.tableData && idx === (secDetails?.clauses.length || 0) - 1 ? '"' : ''}
                       </div>
-                    )}
-                  </div>
-                ))}
+                      {Array.isArray(clause.tableData) && clause.tableData.length > 0 && Array.isArray(clause.tableData[0]) && String(clause.tableData[0][0] || "").toLowerCase() !== "null" && (
+                        <div className="mb-4 w-full">
+                          <table className="w-[99%] mx-auto border-collapse border border-black text-[12pt]">
+                            <tbody>
+                              {clause.tableData.map((row, rIdx) => (
+                                <tr key={rIdx}>
+                                  {Array.isArray(row) ? row.map((cell, cIdx) => (
+                                    <td key={cIdx} className="border border-black p-2 text-center">
+                                      {cell}
+                                    </td>
+                                  )) : (
+                                    <td className="border border-black p-2 text-center">{String(row)}</td>
+                                  )}
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                          {idx === (secDetails?.clauses.length || 0) - 1 && <span className="block mt-2 font-bold">"</span>}
+                        </div>
+                      )}
+                    </div>
+                  ))
+                )}
               </div>
 
-              <div className="space-y-6 mb-12">
-                <div className="flex gap-4">
-                  <span className="font-bold">4.</span>
-                  <span>The above resolution has not been amended or revoked and can be relied upon until a subsequent resolution of the Board of Directors amending, modifying, or revoking the said resolution has been served upon the parties concerned.</span>
+              {documentType !== 'sec_dispute' && (
+                <div className="space-y-6 mb-12">
+                  <div className="flex gap-4">
+                    <span className="font-bold">4.</span>
+                    <span>The above resolution has not been amended or revoked and can be relied upon until a subsequent resolution of the Board of Directors amending, modifying, or revoking the said resolution has been served upon the parties concerned.</span>
+                  </div>
                 </div>
-              </div>
+              )}
 
               <div className="no-break">
                 <div className="mb-12 leading-relaxed indent-12">
-                  <strong>IN WITNESS WHEREOF</strong>, I affix my signature this ____ day of ____________ {currentYear} in ____________________.
+                  {documentType === 'sec_dispute' ? (
+                    <><strong>IN TRUTH WITNESS WHEREOF</strong>, I have hereunto affixed my signature this ____ day of ____________, {currentYear}, in the City/Municipality of ____________________, Province of ____________________, Republic of the Philippines.</>
+                  ) : (
+                    <><strong>IN WITNESS WHEREOF</strong>, I affix my signature this ____ day of ____________ {currentYear} in ____________________.</>
+                  )}
                 </div>
 
                 <div className="flex flex-col items-center mb-4 mt-8 ml-auto mr-0 w-fit">
@@ -341,7 +361,11 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
           ) : (
             <>
               <div className="mb-6 leading-relaxed text-justify indent-12">
-                <strong>SUBSCRIBED AND SWORN</strong> to before me, a notary public in and for ____________________ this ____ day of ____________ {currentYear}, affiant personally appeared. I identified him/her, through competent evidence of identity, particularly, <strong>{secDetails?.idType || "[ID TYPE]"} No. {secDetails?.idNumber || "[ID NUMBER]"}</strong> to be the same person who presented the foregoing instrument, signed in my presence, and who took an oath before me as to such instrument.
+                {documentType === 'sec_dispute' ? (
+                  <><strong>SUBSCRIBED AND SWORN</strong> to before me this ____ day of ____________ {currentYear} at ____________________, affiant exhibiting to me his/her {secDetails?.idType || "[ID TYPE]"} No. {secDetails?.idNumber || "[ID NUMBER]"}.</>
+                ) : (
+                  <><strong>SUBSCRIBED AND SWORN</strong> to before me, a notary public in and for ____________________ this ____ day of ____________ {currentYear}, affiant personally appeared. I identified him/her, through competent evidence of identity, particularly, <strong>{secDetails?.idType || "[ID TYPE]"} No. {secDetails?.idNumber || "[ID NUMBER]"}</strong> to be the same person who presented the foregoing instrument, signed in my presence, and who took an oath before me as to such instrument.</>
+                )}
               </div>
             </>
           )}
@@ -370,7 +394,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
             </div>
             
             <div className="flex flex-col items-center min-w-[200px] mt-1 shrink-0">
-              <div className="text-center font-bold uppercase border-t border-black pt-1 w-full text-sm">
+              <div className="text-center font-bold uppercase pt-1 w-full text-sm">
                 NOTARY PUBLIC
               </div>
             </div>
