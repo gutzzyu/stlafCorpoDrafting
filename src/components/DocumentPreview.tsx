@@ -295,7 +295,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
                   )}
                 </div>
 
-                <div className="flex flex-col items-center mb-4 mt-8 ml-auto mr-0 w-fit">
+                <div className="flex flex-col items-center mb-4 mt-20 ml-auto mr-0 w-fit">
                   <div className="flex flex-col items-center min-w-[300px]">
                     <div className="w-full border-b border-black mb-1"></div>
                     <div className="font-bold uppercase text-center leading-tight">
