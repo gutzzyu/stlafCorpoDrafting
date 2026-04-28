@@ -362,7 +362,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
             <>
               <div className="mb-6 leading-relaxed text-justify indent-12">
                 {documentType === 'sec_dispute' ? (
-                  <><strong>SUBSCRIBED AND SWORN</strong> to before me this ____ day of ____________ {currentYear} at ____________________, affiant exhibiting to me his/her {secDetails?.idType || "[ID TYPE]"} No. {secDetails?.idNumber || "[ID NUMBER]"}.</>
+                  <><strong>SUBSCRIBED AND SWORN</strong> to before me this ____________ at ____________________, affiant exhibiting to me his/her {secDetails?.idType || "[ID TYPE]"} No. {secDetails?.idNumber || "[ID NUMBER]"}.</>
                 ) : (
                   <><strong>SUBSCRIBED AND SWORN</strong> to before me, a notary public in and for ____________________ this ____ day of ____________ {currentYear}, affiant personally appeared. I identified him/her, through competent evidence of identity, particularly, <strong>{secDetails?.idType || "[ID TYPE]"} No. {secDetails?.idNumber || "[ID NUMBER]"}</strong> to be the same person who presented the foregoing instrument, signed in my presence, and who took an oath before me as to such instrument.</>
                 )}
