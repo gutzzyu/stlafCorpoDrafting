@@ -207,6 +207,10 @@ export default function App() {
     try {
       const results = await extractSecClauses(secHeadline, secFileBase64, secFileMimeType);
       
+      if (!Array.isArray(results)) {
+        throw new Error("Invalid response format from AI extractor. Expected an array of clauses.");
+      }
+      
       const mappedClauses: SecClause[] = results.map((res: any, idx: number) => {
         // 1. Aggressively clean the "RESOLVED" prefixes and redundant legal words
         let cleanText = res.text || "";
@@ -220,15 +224,17 @@ export default function App() {
         cleanText = cleanText.replace(/^[,\s:]+/, "").trim();
         
         // 2. Initial table sanitization
-        let cleanTable = res.tableData;
-        if (Array.isArray(cleanTable)) {
-          if (cleanTable.length === 0) {
-            cleanTable = undefined;
-          } else if (cleanTable.length === 1 && cleanTable[0].length === 1 && String(cleanTable[0][0]).toLowerCase() === 'null') {
-            cleanTable = undefined;
+        let cleanTable = undefined;
+        if (Array.isArray(res.tableData) && res.tableData.length > 0) {
+          // Check if it's an array of arrays
+          if (Array.isArray(res.tableData[0])) {
+            // Check for 'null' placeholder
+            if (res.tableData.length === 1 && res.tableData[0].length === 1 && String(res.tableData[0][0]).toLowerCase() === 'null') {
+              cleanTable = undefined;
+            } else {
+              cleanTable = res.tableData;
+            }
           }
-        } else if (cleanTable === null) {
-          cleanTable = undefined;
         }
         
         return {
@@ -329,9 +335,9 @@ export default function App() {
     if (!clause.text) return;
     setIsRefiningSec(clause.id);
     try {
-      const results = await refinePurpose(clause.text, "SEC", ""); // Using refinedPurpose but tagging as SEC
-      if (results.options && results.options.length > 0) {
-        updateSecClause(clause.id, 'text', results.options[0].text);
+      const results = await refinePurpose(clause.text, "SEC", ""); // Using refinement service
+      if (Array.isArray(results) && results.length > 0) {
+        updateSecClause(clause.id, 'text', results[0].text);
       }
     } catch (error) {
       console.error("Refiner Error:", error);
@@ -1113,7 +1119,7 @@ export default function App() {
                       <h3 className="text-[#123765] font-bold uppercase text-[14px] tracking-tight">Resolution Clauses</h3>
                       
                       <div className="space-y-4">
-                        {extractedClauses.map((clause, idx) => (
+                        {extractedClauses?.map((clause, idx) => (
                           <motion.div 
                             key={clause.id}
                             initial={{ opacity: 0, y: 10 }}
@@ -1161,7 +1167,7 @@ export default function App() {
                                     />
                                   </div>
 
-                                  {clause.tableData && clause.tableData.length > 0 && clause.tableData[0][0] !== "null" && (
+                                  {Array.isArray(clause.tableData) && clause.tableData.length > 0 && Array.isArray(clause.tableData[0]) && clause.tableData[0][0] !== "null" && (
                                     <div className="space-y-2 pt-2">
                                       <div className="flex justify-between items-center mb-2">
                                         <Label className="text-[#123765] font-bold uppercase text-[10px] tracking-widest">Resolution Table Data</Label>
@@ -1195,9 +1201,9 @@ export default function App() {
                                       <div className="overflow-x-auto border border-slate-200 rounded-lg bg-slate-50/30">
                                         <table className="w-full border-collapse">
                                           <tbody>
-                                            {clause.tableData.map((row, rIdx) => (
+                                            {clause.tableData?.map((row, rIdx) => (
                                               <tr key={rIdx} className="border-b border-slate-100 last:border-0">
-                                                {row.map((cell, cIdx) => (
+                                                {Array.isArray(row) && row.map((cell, cIdx) => (
                                                   <td key={cIdx} className="p-1 border-r border-slate-100 last:border-0 min-w-[120px]">
                                                     <Input 
                                                       value={cell}
