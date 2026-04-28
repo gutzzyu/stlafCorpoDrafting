@@ -195,7 +195,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
             </>
           ) : (
             <>
-              <div className="flex flex-col mb-12 ml-0 mr-auto w-fit">
+              <div className={cn("flex flex-col ml-0 mr-auto w-fit", documentType === 'sec_dispute' ? 'mb-6' : 'mb-12')}>
                 <div className="grid grid-cols-[auto_20px_auto] items-center">
                   <div className="font-bold uppercase whitespace-nowrap">REPUBLIC OF THE PHILIPPINES</div>
                   <div className="font-bold uppercase text-center">)</div>
@@ -208,7 +208,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
                 </div>
               </div>
 
-              <div className="text-center font-bold mb-12 uppercase">
+              <div className={cn("text-center font-bold uppercase", documentType === 'sec_dispute' ? 'mb-6' : 'mb-12')}>
                 SECRETARY'S CERTIFICATE
               </div>
 
@@ -245,7 +245,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
                 )}
               </div>
 
-              <div className="ml-8 space-y-4 mb-12 text-justify pl-12 pr-12">
+              <div className={cn("ml-8 space-y-4 text-justify pl-12 pr-12", documentType === 'sec_dispute' ? "mb-4" : "mb-12")}>
                 {documentType !== 'sec_dispute' && (
                   secDetails?.clauses?.map((clause, idx) => (
                     <div key={clause.id} className="leading-relaxed">
@@ -286,8 +286,8 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
                 </div>
               )}
 
-              <div className="no-break">
-                <div className="mb-12 leading-relaxed indent-12">
+              <div className="no-break text-justify">
+                <div className={cn("leading-relaxed indent-12", documentType === 'sec_dispute' ? "mb-6" : "mb-12")}>
                   {documentType === 'sec_dispute' ? (
                     <><strong>IN TRUTH WITNESS WHEREOF</strong>, I have hereunto affixed my signature this ____ day of ____________, {currentYear}, in the City/Municipality of ____________________, Province of ____________________, Republic of the Philippines.</>
                   ) : (
