@@ -390,7 +390,7 @@ export default function App() {
       <nav className="bg-[#123765] text-white p-4 border-b-4 border-[#ccaa49] flex justify-between items-center shadow-lg sticky top-0 z-50 no-print">
         <div className="flex items-center gap-3">
           <div className="bg-transparent p-1 rounded">
-            <img src="/home.svg" alt="STLAF Logo" className="w-10 h-10 object-contain" />
+            <img src="/home.png" alt="STLAF Logo" className="w-10 h-10 object-contain" />
           </div>
           <div>
             <div className="font-bold text-xl tracking-wider">STLAF <span className="text-[#ccaa49]">| CORPORATE</span></div>
