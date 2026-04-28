@@ -390,7 +390,11 @@ export default function App() {
       <nav className="bg-[#123765] text-white p-4 border-b-4 border-[#ccaa49] flex justify-between items-center shadow-lg sticky top-0 z-50 no-print">
         <div className="flex items-center gap-3">
           <div className="bg-transparent p-1 rounded">
-            <img src="/home.png" alt="STLAF Logo" className="w-10 h-10 object-contain" />
+            <img 
+              src="/home.png" 
+              alt="STLAF Logo" 
+              className="w-10 h-10 object-contain" 
+            />
           </div>
           <div>
             <div className="font-bold text-xl tracking-wider">STLAF <span className="text-[#ccaa49]">| CORPORATE</span></div>
@@ -425,7 +429,7 @@ export default function App() {
               className="flex-1 flex flex-col items-center justify-center p-6 text-center no-print max-w-5xl mx-auto w-full"
             >
               <div className="flex flex-col items-center mb-8">
-                <img src="/home.png" alt="STLAF Logo" className="w-32 h-32 object-contain mb-4" />
+                <img src="/main3.png" alt="STLAF Logo" className="w-32 h-32 object-contain mb-4" />
                 <h1 className="text-[#123765] text-5xl font-extrabold mb-2">
                   ST<span className="text-[#ccaa49]">LAF</span> DRAFTING
                 </h1>
