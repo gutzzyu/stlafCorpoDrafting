@@ -365,7 +365,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
               </div>
               <div className="grid grid-cols-[75px_80px_5px] items-end leading-none">
                 <span className="font-bold">Series of</span>
-                <span className="text-center font-bold">{currentYear}.</span>
+                <span className="font-bold">{currentYear}.</span>
               </div>
             </div>
             
