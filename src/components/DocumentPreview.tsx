@@ -239,17 +239,19 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
                     <div className={clause.tableData ? "mb-4" : ""}>
                       <strong>{idx === 0 ? '"' : ''}{clause.type}</strong>{clause.text.trim().startsWith(',') ? '' : ','} {clause.text.trim()}{!clause.tableData && idx === (secDetails?.clauses.length || 0) - 1 ? '"' : ''}
                     </div>
-                    {clause.tableData && clause.tableData.length > 0 && Array.isArray(clause.tableData[0]) && String(clause.tableData[0][0] || "").toLowerCase() !== "null" && (
+                    {Array.isArray(clause.tableData) && clause.tableData.length > 0 && Array.isArray(clause.tableData[0]) && String(clause.tableData[0][0] || "").toLowerCase() !== "null" && (
                       <div className="mb-4 w-full">
                         <table className="w-[99%] mx-auto border-collapse border border-black text-[12pt]">
                           <tbody>
                             {clause.tableData.map((row, rIdx) => (
                               <tr key={rIdx}>
-                                {row.map((cell, cIdx) => (
+                                {Array.isArray(row) ? row.map((cell, cIdx) => (
                                   <td key={cIdx} className="border border-black p-2 text-center">
                                     {cell}
                                   </td>
-                                ))}
+                                )) : (
+                                  <td className="border border-black p-2 text-center">{String(row)}</td>
+                                )}
                               </tr>
                             ))}
                           </tbody>
