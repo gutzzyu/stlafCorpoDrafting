@@ -428,13 +428,9 @@ export default function App() {
               exit={{ opacity: 0, y: -20 }}
               className="flex-1 flex flex-col items-center justify-center p-6 text-center no-print max-w-5xl mx-auto w-full"
             >
-              <div className="flex flex-col items-center mb-8">
-                <img src="/main3.png" alt="STLAF Logo" className="w-32 h-32 object-contain mb-4" />
-                <h1 className="text-[#123765] text-5xl font-extrabold mb-2">
-                  ST<span className="text-[#ccaa49]">LAF</span> DRAFTING
-                </h1>
+              <div className="w-full max-w-3xl mb-12">
+                <img src="/main3.png" alt="STLAF Corporate Drafting" className="w-full h-auto object-contain" />
               </div>
-              <p className="text-[#123765] italic text-xl mb-16 tracking-[0.2em]">"Excellence and Commitment"</p>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full px-4">
                 <button
