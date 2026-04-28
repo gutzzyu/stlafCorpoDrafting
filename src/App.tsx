@@ -428,7 +428,7 @@ export default function App() {
               exit={{ opacity: 0, y: -20 }}
               className="flex-1 flex flex-col items-center justify-center p-6 text-center no-print max-w-5xl mx-auto w-full"
             >
-              <div className="w-full max-w-3xl mb-12">
+              <div className="w-full max-w-md mb-8">
                 <img src="/main3.png" alt="STLAF Corporate Drafting" className="w-full h-auto object-contain" />
               </div>
               
