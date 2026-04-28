@@ -135,7 +135,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
 
               <div className="print:break-inside-avoid">
                 <ol className="list-decimal ml-8 mb-6 space-y-4">
-                  {purposes.map((p) => {
+                  {purposes?.map((p) => {
                     let formattedText = p.text;
                     
                     // Logic to cleanly inject RDO or LGU details without repetition
@@ -234,7 +234,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
               </div>
 
               <div className="ml-8 space-y-4 mb-12 text-justify pl-12 pr-12">
-                {secDetails?.clauses.map((clause, idx) => (
+                {secDetails?.clauses?.map((clause, idx) => (
                   <div key={clause.id} className="leading-relaxed">
                     <div className={clause.tableData ? "mb-4" : ""}>
                       <strong>{idx === 0 ? '"' : ''}{clause.type}</strong>{clause.text.trim().startsWith(',') ? '' : ','} {clause.text.trim()}{!clause.tableData && idx === (secDetails?.clauses.length || 0) - 1 ? '"' : ''}
