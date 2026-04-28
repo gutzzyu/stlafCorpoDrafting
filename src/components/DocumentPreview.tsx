@@ -195,7 +195,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
             </>
           ) : (
             <>
-              <div className={cn("flex flex-col ml-0 mr-auto w-fit", documentType === 'sec_dispute' ? 'mb-6' : 'mb-12')}>
+              <div className="flex flex-col mb-12 ml-0 mr-auto w-fit">
                 <div className="grid grid-cols-[auto_20px_auto] items-center">
                   <div className="font-bold uppercase whitespace-nowrap">REPUBLIC OF THE PHILIPPINES</div>
                   <div className="font-bold uppercase text-center">)</div>
@@ -208,7 +208,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
                 </div>
               </div>
 
-              <div className={cn("text-center font-bold uppercase", documentType === 'sec_dispute' ? 'mb-6' : 'mb-12')}>
+              <div className="text-center font-bold mb-12 uppercase">
                 SECRETARY'S CERTIFICATE
               </div>
 
@@ -245,37 +245,37 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
                 )}
               </div>
 
-              <div className={cn("ml-8 space-y-4 text-justify pl-12 pr-12", documentType === 'sec_dispute' ? "mb-4" : "mb-12")}>
                 {documentType !== 'sec_dispute' && (
-                  secDetails?.clauses?.map((clause, idx) => (
-                    <div key={clause.id} className="leading-relaxed">
-                      <div className={clause.tableData ? "mb-4" : ""}>
-                        <strong>{idx === 0 ? '"' : ''}{clause.type}</strong>{clause.text.trim().startsWith(',') ? '' : ','} {clause.text.trim()}{!clause.tableData && idx === (secDetails?.clauses.length || 0) - 1 ? '"' : ''}
-                      </div>
-                      {Array.isArray(clause.tableData) && clause.tableData.length > 0 && Array.isArray(clause.tableData[0]) && String(clause.tableData[0][0] || "").toLowerCase() !== "null" && (
-                        <div className="mb-4 w-full">
-                          <table className="w-[99%] mx-auto border-collapse border border-black text-[12pt]">
-                            <tbody>
-                              {clause.tableData.map((row, rIdx) => (
-                                <tr key={rIdx}>
-                                  {Array.isArray(row) ? row.map((cell, cIdx) => (
-                                    <td key={cIdx} className="border border-black p-2 text-center">
-                                      {cell}
-                                    </td>
-                                  )) : (
-                                    <td className="border border-black p-2 text-center">{String(row)}</td>
-                                  )}
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                          {idx === (secDetails?.clauses.length || 0) - 1 && <span className="block mt-2 font-bold">"</span>}
+                  <div className="ml-8 space-y-4 mb-6 text-justify pl-12 pr-12">
+                    {secDetails?.clauses?.map((clause, idx) => (
+                      <div key={clause.id} className="leading-relaxed">
+                        <div className={clause.tableData ? "mb-4" : ""}>
+                          <strong>{idx === 0 ? '"' : ''}{clause.type}</strong>{clause.text.trim().startsWith(',') ? '' : ','} {clause.text.trim()}{!clause.tableData && idx === (secDetails?.clauses.length || 0) - 1 ? '"' : ''}
                         </div>
-                      )}
-                    </div>
-                  ))
+                        {Array.isArray(clause.tableData) && clause.tableData.length > 0 && Array.isArray(clause.tableData[0]) && String(clause.tableData[0][0] || "").toLowerCase() !== "null" && (
+                          <div className="mb-4 w-full">
+                            <table className="w-[99%] mx-auto border-collapse border border-black text-[12pt]">
+                              <tbody>
+                                {clause.tableData.map((row, rIdx) => (
+                                  <tr key={rIdx}>
+                                    {Array.isArray(row) ? row.map((cell, cIdx) => (
+                                      <td key={cIdx} className="border border-black p-2 text-center">
+                                        {cell}
+                                      </td>
+                                    )) : (
+                                      <td className="border border-black p-2 text-center">{String(row)}</td>
+                                    )}
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                            {idx === (secDetails?.clauses.length || 0) - 1 && <span className="block mt-2 font-bold">"</span>}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 )}
-              </div>
 
               {documentType !== 'sec_dispute' && (
                 <div className="space-y-6 mb-12">
@@ -286,8 +286,8 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
                 </div>
               )}
 
-              <div className="no-break text-justify">
-                <div className={cn("leading-relaxed indent-12", documentType === 'sec_dispute' ? "mb-6" : "mb-12")}>
+              <div className="no-break mt-4">
+                <div className="mb-6 leading-relaxed indent-12">
                   {documentType === 'sec_dispute' ? (
                     <><strong>IN TRUTH WITNESS WHEREOF</strong>, I have hereunto affixed my signature this ____ day of ____________, {currentYear}, in the City/Municipality of ____________________, Province of ____________________, Republic of the Philippines.</>
                   ) : (
@@ -295,7 +295,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
                   )}
                 </div>
 
-                <div className="flex flex-col items-center mb-4 mt-20 ml-auto mr-0 w-fit">
+                <div className="flex flex-col items-center mb-4 mt-10 ml-auto mr-0 w-fit">
                   <div className="flex flex-col items-center min-w-[300px]">
                     <div className="w-full border-b border-black mb-1"></div>
                     <div className="font-bold uppercase text-center leading-tight">
@@ -311,7 +311,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
         </div>
 
         {/* Page 2: Jurat / Acknowledgement Section */}
-        <div className="no-break mt-8 pt-4 flex flex-col">
+        <div className="no-break mt-4 pt-2 flex flex-col">
           {documentType === 'spa' ? (
             <>
               <div className="text-center font-bold mb-12 uppercase">
@@ -360,7 +360,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ details, secDe
             </>
           ) : (
             <>
-              <div className="mb-6 leading-relaxed text-justify indent-12">
+              <div className="mb-4 leading-relaxed text-justify indent-12">
                 {documentType === 'sec_dispute' ? (
                   <><strong>SUBSCRIBED AND SWORN</strong> to before me this ____________ at ____________________, affiant exhibiting to me his/her {secDetails?.idType || "[ID TYPE]"} No. {secDetails?.idNumber || "[ID NUMBER]"}.</>
                 ) : (
