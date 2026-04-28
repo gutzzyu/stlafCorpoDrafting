@@ -389,8 +389,8 @@ export default function App() {
       {/* Navbar */}
       <nav className="bg-[#123765] text-white p-4 border-b-4 border-[#ccaa49] flex justify-between items-center shadow-lg sticky top-0 z-50 no-print">
         <div className="flex items-center gap-3">
-          <div className="bg-[#ccaa49] p-2 rounded">
-            <Scale className="text-[#123765]" size={24} />
+          <div className="bg-transparent p-1 rounded">
+            <img src="/home.svg" alt="STLAF Logo" className="w-10 h-10 object-contain" />
           </div>
           <div>
             <div className="font-bold text-xl tracking-wider">STLAF <span className="text-[#ccaa49]">| CORPORATE</span></div>
@@ -424,12 +424,12 @@ export default function App() {
               exit={{ opacity: 0, y: -20 }}
               className="flex-1 flex flex-col items-center justify-center p-6 text-center no-print max-w-5xl mx-auto w-full"
             >
-              <div className="mb-8">
-                <FileText size={60} className="text-[#ccaa49] mx-auto" />
+              <div className="flex flex-col items-center mb-8">
+                <img src="/home.png" alt="STLAF Logo" className="w-32 h-32 object-contain mb-4" />
+                <h1 className="text-[#123765] text-5xl font-extrabold mb-2">
+                  ST<span className="text-[#ccaa49]">LAF</span> DRAFTING
+                </h1>
               </div>
-              <h1 className="text-[#123765] text-5xl font-extrabold mb-2">
-                ST<span className="text-[#ccaa49]">LAF</span> DRAFTING
-              </h1>
               <p className="text-[#123765] italic text-xl mb-16 tracking-[0.2em]">"Excellence and Commitment"</p>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full px-4">
